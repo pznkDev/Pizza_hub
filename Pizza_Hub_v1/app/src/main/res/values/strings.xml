@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Pizza_Hub_v1</string>
 
+    <string name="radio_log_in">log_in</string>
+    <string name="radio_registration">registration</string>
+    <string name="registration_accept">Accept</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

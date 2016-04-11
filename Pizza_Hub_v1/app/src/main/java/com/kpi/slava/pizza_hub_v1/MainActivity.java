@@ -1,6 +1,7 @@
 
 package com.kpi.slava.pizza_hub_v1;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,12 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.kpi.slava.pizza_hub_v1.fragments.MainFragment;
+import com.kpi.slava.pizza_hub_v1.fragments.RegistrationFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private DrawerLayout drawer;
@@ -28,9 +30,24 @@ public class MainActivity extends AppCompatActivity
     private FragmentTransaction transaction;
 
     private MainFragment mainFragment;
+    private RegistrationFragment registrationFragment;
+
+    SharedPreferences sharedPreferences;
+    final String SAVED_NAME = "Name Saved";
+    final String SAVED_NUMBER = "Number Saved";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        fragmentManager = getSupportFragmentManager();
+        initFragments();
+
+        if(checkName()) {
+            Toast.makeText(this, "empty", Toast.LENGTH_SHORT).show();
+            registrationFragment.show(fragmentManager, RegistrationFragment.TAG);
+        };
+
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Main");
@@ -54,10 +71,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fragmentManager = getSupportFragmentManager();
-        initFragments();
+
         launchMainFragment();
 
+    }
+
+    private boolean checkName() {
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        String name = sharedPreferences.getString(SAVED_NAME, "");
+        if(name.equals("")) return true;
+        else return false;
     }
 
     @Override
@@ -72,7 +95,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         switch (item.getItemId()){
             case (R.id.nav_main):
                 toolbar.setTitle("Main");
@@ -99,6 +121,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initFragments() {
         mainFragment = new MainFragment();
+        registrationFragment = new RegistrationFragment();
     }
 
     private void launchMainFragment() {
