@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.kpi.slava.pizza_hub_v1.fragments.MainFragment;
 import com.kpi.slava.pizza_hub_v1.fragments.RegistrationFragment;
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity
         initFragments();
 
         if(checkName()) {
-            Toast.makeText(this, "empty", Toast.LENGTH_SHORT).show();
             registrationFragment.show(fragmentManager, RegistrationFragment.TAG);
         };
 
@@ -70,7 +68,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         launchMainFragment();
 

@@ -25,24 +25,24 @@
     </RadioGroup>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_name"
+        android:id="@+id/til_registration_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
         <EditText
-            android:id="@+id/edt_name"
+            android:id="@+id/edt_registration_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="200dp"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_number"
+        android:id="@+id/til_registration_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
         <EditText
-            android:id="@+id/edt_number"
+            android:id="@+id/edt_registration_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="200dp"
