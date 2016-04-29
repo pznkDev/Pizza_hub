@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.kpi.slava.pizza_hub_v1.fragments.MenuFragment;
 import com.kpi.slava.pizza_hub_v1.fragments.MainFragment;
 import com.kpi.slava.pizza_hub_v1.fragments.RegistrationFragment;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity
 
     private MainFragment mainFragment;
     private RegistrationFragment registrationFragment;
+    private MenuFragment menuFragment;
 
     SharedPreferences sharedPreferences;
     final String SAVED_NAME = "Name Saved";
@@ -92,12 +94,14 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        transaction = fragmentManager.beginTransaction();
         switch (item.getItemId()){
             case (R.id.nav_main):
                 toolbar.setTitle("Main");
                 break;
             case (R.id.nav_menu):
                 toolbar.setTitle("Menu");
+                transaction.replace(R.id.layout_container, menuFragment);
                 break;
             case (R.id.nav_news):
                 toolbar.setTitle("News");
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 break;
         }
+        transaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity
     private void initFragments() {
         mainFragment = new MainFragment();
         registrationFragment = new RegistrationFragment();
+        menuFragment = new MenuFragment();
     }
 
     private void launchMainFragment() {

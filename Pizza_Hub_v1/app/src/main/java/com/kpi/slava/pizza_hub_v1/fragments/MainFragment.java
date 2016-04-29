@@ -19,7 +19,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(LAYOUT, container, false);
+        view = inflater.inflate(LAYOUT, container, false);
 
         return view;
     }
