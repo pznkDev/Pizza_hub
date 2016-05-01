@@ -101,7 +101,10 @@ public class MainActivity extends AppCompatActivity
                 break;
             case (R.id.nav_menu):
                 toolbar.setTitle("Menu");
-                transaction.replace(R.id.layout_container, menuFragment);
+                if ((fragmentManager.findFragmentByTag(menuFragment.TAG) == null) &&
+                        (!fragmentManager.popBackStackImmediate("Menu", 1))) {
+                    transaction.replace(R.id.layout_container, menuFragment);
+                }
                 break;
             case (R.id.nav_news):
                 toolbar.setTitle("News");

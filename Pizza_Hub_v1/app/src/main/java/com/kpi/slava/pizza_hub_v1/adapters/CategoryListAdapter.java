@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kpi.slava.pizza_hub_v1.R;
 import com.kpi.slava.pizza_hub_v1.entity.Category;
@@ -25,7 +24,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entity_category, parent, false);
         return new CategoryViewHolder(view);
     }
 
@@ -44,21 +43,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
         TextView tvId, tvName;
 
-        public View v;
-
-        public CategoryViewHolder(View itemView) {
+        public CategoryViewHolder(final View itemView) {
             super(itemView);
 
             tvId = (TextView) itemView.findViewById(R.id.tv_category_id);
             tvName = (TextView) itemView.findViewById(R.id.tv_category_name);
-
-            v = itemView;
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "id_category" + categoryList.get(getAdapterPosition()).getIdCategory(), Toast.LENGTH_SHORT).show();
-                }
-            });
         }
+
     }
+
 }

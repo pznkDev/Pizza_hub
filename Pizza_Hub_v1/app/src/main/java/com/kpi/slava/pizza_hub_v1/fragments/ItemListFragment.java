@@ -11,15 +11,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.kpi.slava.pizza_hub_v1.JSON.JSONParser;
 import com.kpi.slava.pizza_hub_v1.R;
 import com.kpi.slava.pizza_hub_v1.URLConstants;
-import com.kpi.slava.pizza_hub_v1.adapters.CategoryListAdapter;
-import com.kpi.slava.pizza_hub_v1.entity.Category;
+import com.kpi.slava.pizza_hub_v1.adapters.ItemListAdapter;
+import com.kpi.slava.pizza_hub_v1.entity.Item;
 import com.kpi.slava.pizza_hub_v1.listener.RecyclerItemClickListener;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,42 +29,54 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+public class ItemListFragment extends Fragment {
 
-public class MenuFragment extends Fragment {
-
-    public static String TAG = "MenuFragment";
-    public static int LAYOUT = R.layout.fragment_menu;
+    public static String TAG = "ItemListFragment";
+    public static int LAYOUT = R.layout.fragment_item_list;
 
     private View view;
 
-    private RecyclerView rvCategory;
+    private String idCategory;
+
+    private RecyclerView rvItems;
 
     private ProgressDialog progressDialog;
 
     private JSONParser jsonParser = new JSONParser();
 
-    ArrayList<Category> categoryList = new ArrayList<Category>();
+    ArrayList<Item> itemList = new ArrayList<Item>();
 
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_CATEGORIES = "categories";
-    private static final String TAG_ID = "id_category";
+    private static final String TAG_ITEMS = "items";
+    private static final String TAG_ID = "id_item";
     private static final String TAG_NAME = "name";
+    private static final String TAG_ID_CATEGORY = "id_category";
+    private static final String TAG_DESCRIPTION = "description";
+    private static final String TAG_WEIGHT = "weight";
+    private static final String TAG_PRICE = "price";
 
-    JSONArray categories = null;
+    JSONArray itemArray = null;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            idCategory = bundle.getString("id_category");
+        }
+
         view = inflater.inflate(LAYOUT, container, false);
 
-        if(categoryList.size()==0)
-            new GetCategories().execute();
+        if(itemList.size()==0)
+            new GetItems().execute();
         else fillRV();
 
         return view;
     }
 
-    private class GetCategories extends AsyncTask<String, String, String> {
+
+    private class GetItems extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -77,24 +91,27 @@ public class MenuFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            List<NameValuePair> getParams = new ArrayList<NameValuePair>();
+            List<NameValuePair> idCategoryParam = new ArrayList<NameValuePair>();
+            idCategoryParam.add(new BasicNameValuePair("id_category", idCategory));
 
-            JSONObject json = jsonParser.makeHttpRequest(URLConstants.URL_SELECT_ALL_CATEGORIES, "GET", getParams);
+            JSONObject json = jsonParser.makeHttpRequest(URLConstants.URL_SELECT_ITEMS_WHERE_CATEGORY, "POST", idCategoryParam);
 
             try {
                 int success = json.getInt(TAG_SUCCESS);
                 // was successful connected to db
                 if (success == 1) {
-                    categories = json.getJSONArray(TAG_CATEGORIES);
+                    itemArray = json.getJSONArray(TAG_ITEMS);
 
-                    //get all categories and store theme in arrayList
-                    for (int i = 0; i < categories.length(); i++) {
-                        JSONObject c = categories.getJSONObject(i);
+                    //get all items with current id_category and store them in arrayList
+                    for (int i = 0; i < itemArray.length(); i++) {
+                        JSONObject c = itemArray.getJSONObject(i);
 
-                        categoryList.add(new Category(c.getString(TAG_ID), c.getString(TAG_NAME)));
+                        itemList.add(new Item(c.getString(TAG_ID), c.getString(TAG_NAME),
+                                c.getString(TAG_ID_CATEGORY), c.getString(TAG_DESCRIPTION),
+                                c.getString(TAG_WEIGHT), c.getString(TAG_PRICE)));
                     }
                 } else {
-                    System.out.println("No Categories");
+                    System.out.println("No items");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -111,24 +128,28 @@ public class MenuFragment extends Fragment {
     }
 
     void fillRV(){
-        //create recyclerView for arrayList of category-objects
-        rvCategory = (RecyclerView) view.findViewById(R.id.rv_category_list);
-        rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvCategory.setAdapter(new CategoryListAdapter(categoryList));
+        //create recyclerView for arrayList of items
+        rvItems = (RecyclerView) view.findViewById(R.id.rv_item_list);
+        rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvItems.setAdapter(new ItemListAdapter(itemList));
 
-        rvCategory.addOnItemTouchListener(
+        rvItems.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        ItemListFragment itemListFragment = new ItemListFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id_category", categoryList.get((position)).getIdCategory());
 
-                        itemListFragment.setArguments(bundle);
+                        ItemFragment itemFragment = new ItemFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("item", itemList.get(position));
+
+                        itemFragment.setArguments(bundle);
+
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-                        fragmentManager.beginTransaction().replace(R.id.layout_container,  itemListFragment).addToBackStack("Menu").commit();
+                        fragmentManager.beginTransaction().replace(R.id.layout_container,  itemFragment).addToBackStack("Menu").commit();
+
                     }
                 })
         );
     }
+
 }

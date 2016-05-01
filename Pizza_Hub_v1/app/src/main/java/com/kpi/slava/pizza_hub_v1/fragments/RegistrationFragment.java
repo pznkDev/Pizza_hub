@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.kpi.slava.pizza_hub_v1.JSON.JSONParser;
 import com.kpi.slava.pizza_hub_v1.R;
+import com.kpi.slava.pizza_hub_v1.URLConstants;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -28,9 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrationFragment extends DialogFragment {
-
-    private String url_client_log_in = "http://192.168.1.103/client_log_in.php";
-    private String url_client_registration = "http://192.168.1.103/client_registration.php";
 
     private static final String TAG_SUCCESS = "success";
 
@@ -119,7 +117,7 @@ public class RegistrationFragment extends DialogFragment {
             params.add(new BasicNameValuePair("name", name));
             params.add(new BasicNameValuePair("number", number));
 
-            JSONObject json = jsonParser.makeHttpRequest(url_client_log_in, "POST", params);
+            JSONObject json = jsonParser.makeHttpRequest(URLConstants.URL_CLIENT_LOG_IN, "POST", params);
 
             try {
                 int success = json.getInt(TAG_SUCCESS);
@@ -159,7 +157,7 @@ public class RegistrationFragment extends DialogFragment {
             params.add(new BasicNameValuePair("name", name));
             params.add(new BasicNameValuePair("number", number));
 
-            JSONObject json = jsonParser.makeHttpRequest(url_client_registration, "POST", params);
+            JSONObject json = jsonParser.makeHttpRequest(URLConstants.URL_CLIENT_REGISTRATION, "POST", params);
 
             try {
                 int success = json.getInt(TAG_SUCCESS);
