@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.kpi.slava.pizza_hub_v1.R;
@@ -28,7 +29,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entity_item_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item_list, parent, false);
         return new ItemViewHolder(view);
     }
 

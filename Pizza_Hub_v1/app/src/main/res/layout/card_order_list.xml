@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_order_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_order_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="15sp"/>
+
+            <ImageButton
+                android:id="@+id/ib_order_item_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close_black_24dp"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:id="@+id/tv_order_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRICE"
+                android:textSize="15sp"
+                android:minWidth="40dp"
+                android:layout_toLeftOf="@id/ib_order_item_delete"/>
+
+            <ImageButton
+                android:id="@+id/ib_order_item_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_order_item_price"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_add_black_24dp"/>
+
+            <TextView
+                android:id="@+id/tv_order_item_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textSize="15sp"
+                android:layout_toLeftOf="@id/ib_order_item_add"/>
+
+            <ImageButton
+                android:id="@+id/ib_order_item_deduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_order_item_quantity"
+                android:src="@drawable/ic_remove_black_24dp"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class Item implements Parcelable{
 
     private String idItem, name, idCategory, description, weight, price;
+    private int quantity;
 
     public Item(String idItem, String name, String idCategory, String description, String weight, String price) {
         this.idItem = idItem;
@@ -14,6 +15,7 @@ public class Item implements Parcelable{
         this.description = description;
         this.weight = weight;
         this.price = price;
+        quantity = 1;
     }
 
     public String getIdItem() {
@@ -38,6 +40,16 @@ public class Item implements Parcelable{
         return price;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
+
+
+
     protected Item(Parcel in) {
         idItem = in.readString();
         name = in.readString();
@@ -45,6 +57,7 @@ public class Item implements Parcelable{
         description = in.readString();
         weight = in.readString();
         price = in.readString();
+        quantity = in.readInt();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -72,5 +85,6 @@ public class Item implements Parcelable{
         dest.writeString(description);
         dest.writeString(weight);
         dest.writeString(price);
+        dest.writeInt(quantity);
     }
 }

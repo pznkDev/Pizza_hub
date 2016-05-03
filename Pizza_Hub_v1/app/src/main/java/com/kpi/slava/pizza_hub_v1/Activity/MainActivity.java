@@ -1,11 +1,11 @@
 
-package com.kpi.slava.pizza_hub_v1;
+package com.kpi.slava.pizza_hub_v1.Activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -16,9 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.kpi.slava.pizza_hub_v1.R;
+import com.kpi.slava.pizza_hub_v1.entity.Item;
 import com.kpi.slava.pizza_hub_v1.fragments.MenuFragment;
 import com.kpi.slava.pizza_hub_v1.fragments.MainFragment;
 import com.kpi.slava.pizza_hub_v1.fragments.RegistrationFragment;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sharedPreferences;
     final String SAVED_NAME = "Name Saved";
     final String SAVED_NUMBER = "Number Saved";
+
+    public static ArrayList<Item> itemListOrder = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +63,13 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if(itemListOrder.size()>0) {
+                    Intent orderIntent = new Intent(getApplicationContext(), OrderActivity.class);
+
+                    orderIntent.putExtra("itemListOrder", itemListOrder);
+
+                    startActivity(orderIntent);
+                }
             }
         });
 
