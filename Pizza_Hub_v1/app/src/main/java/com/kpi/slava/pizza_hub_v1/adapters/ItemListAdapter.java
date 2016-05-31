@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kpi.slava.pizza_hub_v1.R;
@@ -16,12 +17,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
     ArrayList<Item> itemList;
 
-    private final String ID = "Id : ";
-    private final String NAME = "Name : ";
-    private final String ID_CATEGORY= "Id_category: ";
-    private final String DESCRIPTION = "Description : ";
-    private final String WEIGHT = "Weight : ";
-    private final String PRICE = "Price : ";
+    private final String PRICE = "Cost:";
 
     public ItemListAdapter(ArrayList<Item> itemList){
         this.itemList = itemList;
@@ -35,12 +31,11 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        holder.tvId.setText(ID + itemList.get(position).getIdItem());
-        holder.tvName.setText(NAME + itemList.get(position).getName());
-        holder.tvIdCategory.setText(ID_CATEGORY + itemList.get(position).getIdCategory());
-        holder.tvDescription.setText(DESCRIPTION + itemList.get(position).getDescription());
-        holder.tvWeight.setText(WEIGHT + itemList.get(position).getWeight());
+        holder.tvName.setText(itemList.get(position).getName());
         holder.tvPrice.setText(PRICE + itemList.get(position).getPrice());
+
+        if(Integer.parseInt(itemList.get(position).getIdCategory())<=3) holder.imageView.setImageResource(R.drawable.pizza);
+        else holder.imageView.setImageResource(R.drawable.beer);
     }
 
     @Override
@@ -50,17 +45,15 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVi
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvId, tvName, tvIdCategory, tvDescription, tvWeight, tvPrice;
+        TextView tvName, tvPrice;
+        ImageView imageView;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
 
-            tvId = (TextView) itemView.findViewById(R.id.tv_item_list_id);
             tvName = (TextView) itemView.findViewById(R.id.tv_item_list_name);
-            tvIdCategory = (TextView) itemView.findViewById(R.id.tv_item_list_id_category);
-            tvDescription = (TextView) itemView.findViewById(R.id.tv_item_list_description);
-            tvWeight = (TextView) itemView.findViewById(R.id.tv_item_list_weight);
             tvPrice = (TextView) itemView.findViewById(R.id.tv_item_list_price);
+            imageView = (ImageView) itemView.findViewById(R.id.image_item_list);
         }
     }
 }

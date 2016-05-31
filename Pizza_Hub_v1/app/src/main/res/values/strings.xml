@@ -12,4 +12,7 @@
 
     <string name="account_name"> </string>
 
+    <string name="order_title">Order</string>
+
+
 </resources>

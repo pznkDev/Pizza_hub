@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +21,7 @@ import com.kpi.slava.pizza_hub_v1.R;
 import com.kpi.slava.pizza_hub_v1.entity.Item;
 import com.kpi.slava.pizza_hub_v1.fragments.MenuFragment;
 import com.kpi.slava.pizza_hub_v1.fragments.MainFragment;
+import com.kpi.slava.pizza_hub_v1.fragments.NewsFragment;
 import com.kpi.slava.pizza_hub_v1.fragments.RegistrationFragment;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
-    private FloatingActionButton fab;
+    private FloatingActionButton fabOrder;
     private DrawerLayout drawer;
 
     private FragmentManager fragmentManager;
@@ -36,10 +38,12 @@ public class MainActivity extends AppCompatActivity
     private MainFragment mainFragment;
     private RegistrationFragment registrationFragment;
     private MenuFragment menuFragment;
+    private NewsFragment newsFragment;
 
     SharedPreferences sharedPreferences;
     final String SAVED_NAME = "Name Saved";
     final String SAVED_NUMBER = "Number Saved";
+    final String SAVED_ID = "Id Saved";
 
     public static ArrayList<Item> itemListOrder = new ArrayList<Item>();
 
@@ -59,17 +63,25 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle("Main");
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabOrder = (FloatingActionButton) findViewById(R.id.fab_order);
+        fabOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                for (int i = 0; i < itemListOrder.size(); i++) {
+                    System.out.println("id=" + itemListOrder.get(i).getIdItem() + "\n"+
+                            "name=" + itemListOrder.get(i).getName() + "\n"+
+                            "category=" + itemListOrder.get(i).getCategoryName());
+                }
+
                 if(itemListOrder.size()>0) {
                     Intent orderIntent = new Intent(getApplicationContext(), OrderActivity.class);
 
                     orderIntent.putExtra("itemListOrder", itemListOrder);
 
-                    startActivity(orderIntent);
+                    startActivityForResult(orderIntent, 1);
                 }
+                else Snackbar.make(view, "Cart is empty", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
             }
         });
 
@@ -83,11 +95,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         launchMainFragment();
-
     }
 
     private boolean checkName() {
-        sharedPreferences = getPreferences(MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("client", MODE_PRIVATE);
         String name = sharedPreferences.getString(SAVED_NAME, "");
         if(name.equals("")) return true;
         else return false;
@@ -109,16 +120,26 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()){
             case (R.id.nav_main):
                 toolbar.setTitle("Main");
+
+                if (fragmentManager.findFragmentByTag(menuFragment.TAG) == null)
+                    transaction.replace(R.id.layout_container, mainFragment);
+
                 break;
             case (R.id.nav_menu):
+
                 toolbar.setTitle("Menu");
                 if ((fragmentManager.findFragmentByTag(menuFragment.TAG) == null) &&
                         (!fragmentManager.popBackStackImmediate("Menu", 1))) {
                     transaction.replace(R.id.layout_container, menuFragment);
                 }
+
                 break;
             case (R.id.nav_news):
                 toolbar.setTitle("News");
+
+                if (fragmentManager.findFragmentByTag(newsFragment.TAG) == null)
+                    transaction.replace(R.id.layout_container, newsFragment);
+
                 break;
             case (R.id.nav_comment):
                 toolbar.setTitle("Comments");
@@ -139,6 +160,7 @@ public class MainActivity extends AppCompatActivity
         mainFragment = new MainFragment();
         registrationFragment = new RegistrationFragment();
         menuFragment = new MenuFragment();
+        newsFragment = new NewsFragment();
     }
 
     private void launchMainFragment() {
@@ -146,4 +168,11 @@ public class MainActivity extends AppCompatActivity
         transaction.add(R.id.layout_container, mainFragment);
         transaction.commit();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {return;}
+        itemListOrder = data.getParcelableArrayListExtra("itemList");
+    }
+
 }

@@ -1,9 +1,11 @@
 package com.kpi.slava.pizza_hub_v1.adapters;
 
+import android.support.annotation.IntegerRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kpi.slava.pizza_hub_v1.R;
@@ -14,9 +16,6 @@ import java.util.ArrayList;
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder> {
 
     ArrayList<Category> categoryList;
-
-    private final String ID = "Id : ";
-    private final String NAME = "Name : ";
 
     public CategoryListAdapter(ArrayList<Category> categoryList){
         this.categoryList = categoryList;
@@ -30,8 +29,9 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
-        holder.tvId.setText(ID + categoryList.get(position).getIdCategory());
-        holder.tvName.setText(NAME + categoryList.get(position).getName());
+        holder.tvName.setText(categoryList.get(position).getName());
+        if(Integer.parseInt(categoryList.get(position).getIdCategory())<=3) holder.imageView.setImageResource(R.drawable.pizza);
+        else holder.imageView.setImageResource(R.drawable.beer);
     }
 
     @Override
@@ -41,13 +41,15 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvId, tvName;
+        TextView tvName;
+
+        ImageView imageView;
 
         public CategoryViewHolder(final View itemView) {
             super(itemView);
 
-            tvId = (TextView) itemView.findViewById(R.id.tv_category_id);
             tvName = (TextView) itemView.findViewById(R.id.tv_category_name);
+            imageView = (ImageView) itemView.findViewById(R.id.image_category);
         }
 
     }

@@ -39,7 +39,5 @@ public class OrderActivity extends AppCompatActivity {
         transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.layout_order_container, orderListFragment).commit();
 
-
-
     }
 }

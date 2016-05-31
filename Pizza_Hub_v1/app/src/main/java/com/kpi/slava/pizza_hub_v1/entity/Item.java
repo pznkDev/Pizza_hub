@@ -7,6 +7,7 @@ public class Item implements Parcelable{
 
     private String idItem, name, idCategory, description, weight, price;
     private int quantity;
+    private String categoryName;
 
     public Item(String idItem, String name, String idCategory, String description, String weight, String price) {
         this.idItem = idItem;
@@ -16,6 +17,7 @@ public class Item implements Parcelable{
         this.weight = weight;
         this.price = price;
         quantity = 1;
+        categoryName = "";
     }
 
     public String getIdItem() {
@@ -24,6 +26,9 @@ public class Item implements Parcelable{
 
     public String getIdCategory() {
         return idCategory;
+    }
+
+    public String getCategoryName() { return categoryName;
     }
 
     public String getName() {return name;}
@@ -48,6 +53,7 @@ public class Item implements Parcelable{
         this.quantity = quantity;
     }
 
+    public void setCategoryName(String category) { this.categoryName = category; }
 
 
     protected Item(Parcel in) {
@@ -58,6 +64,7 @@ public class Item implements Parcelable{
         weight = in.readString();
         price = in.readString();
         quantity = in.readInt();
+        categoryName= in.readString();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -86,5 +93,6 @@ public class Item implements Parcelable{
         dest.writeString(weight);
         dest.writeString(price);
         dest.writeInt(quantity);
+        dest.writeString(categoryName);
     }
 }

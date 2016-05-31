@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#3E2723</color>
     <color name="colorAccent">#8D6E63</color>
     <color name="fragmentBackground">#EFEBE9</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

@@ -22,6 +22,7 @@ import com.kpi.slava.pizza_hub_v1.URLConstants;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +34,8 @@ public class RegistrationFragment extends DialogFragment {
     private static final String TAG_SUCCESS = "success";
 
     JSONParser jsonParser;
+
+    JSONObject client = null;
 
     private ProgressDialog pDialog;
 
@@ -49,9 +52,11 @@ public class RegistrationFragment extends DialogFragment {
     SharedPreferences sharedPreferences;
     final String SAVED_NAME = "Name Saved";
     final String SAVED_NUMBER = "Number Saved";
+    final String SAVED_ID = "Id Saved";
 
     private String name;
     private String number;
+    private String id;
 
     boolean flag;
 
@@ -121,7 +126,10 @@ public class RegistrationFragment extends DialogFragment {
 
             try {
                 int success = json.getInt(TAG_SUCCESS);
-                if (success == 1) flag = true;
+                if (success == 1) {
+                    flag = true;
+                    id = String.valueOf(json.getInt("id"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -131,7 +139,7 @@ public class RegistrationFragment extends DialogFragment {
         protected void onPostExecute(String file_url) {
             pDialog.dismiss();
             if (flag) {
-                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Success" + id, Toast.LENGTH_SHORT).show();
                 saveDataSP();
                 dismiss();
             } else Toast.makeText(getContext(), "No client found", Toast.LENGTH_SHORT).show();
@@ -161,7 +169,10 @@ public class RegistrationFragment extends DialogFragment {
 
             try {
                 int success = json.getInt(TAG_SUCCESS);
-                if (success == 1) flag = true;
+                if (success == 1) {
+                    flag = true;
+                    id = String.valueOf(json.getInt("id"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -181,10 +192,13 @@ public class RegistrationFragment extends DialogFragment {
 
     //save account data in sharedPreferences
     void saveDataSP() {
-        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("client", Context.MODE_PRIVATE);
         SharedPreferences.Editor spEditor = sharedPreferences.edit();
         spEditor.putString(SAVED_NAME, name);
         spEditor.putString(SAVED_NUMBER, number);
+        spEditor.putString(SAVED_ID, id);
+
+
         spEditor.commit();
     }
 

@@ -28,7 +28,8 @@
         android:id="@+id/til_registration_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:theme="@style/TextLabel">
         <EditText
             android:id="@+id/edt_registration_name"
             android:layout_width="wrap_content"
@@ -40,7 +41,8 @@
         android:id="@+id/til_registration_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:theme="@style/TextLabel">
         <EditText
             android:id="@+id/edt_registration_number"
             android:layout_width="wrap_content"

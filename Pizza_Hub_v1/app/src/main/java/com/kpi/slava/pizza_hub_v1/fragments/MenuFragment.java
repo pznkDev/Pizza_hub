@@ -122,6 +122,7 @@ public class MenuFragment extends Fragment {
                         ItemListFragment itemListFragment = new ItemListFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("id_category", categoryList.get((position)).getIdCategory());
+                        bundle.putString("name_category", categoryList.get((position)).getName());
 
                         itemListFragment.setArguments(bundle);
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

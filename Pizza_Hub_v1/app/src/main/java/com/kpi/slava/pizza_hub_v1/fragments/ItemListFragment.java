@@ -37,6 +37,7 @@ public class ItemListFragment extends Fragment {
     private View view;
 
     private String idCategory;
+    private String nameCategory;
 
     private RecyclerView rvItems;
 
@@ -64,6 +65,7 @@ public class ItemListFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             idCategory = bundle.getString("id_category");
+            nameCategory = bundle.getString("name_category");
         }
 
         view = inflater.inflate(LAYOUT, container, false);
@@ -140,6 +142,7 @@ public class ItemListFragment extends Fragment {
                         ItemFragment itemFragment = new ItemFragment();
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("item", itemList.get(position));
+                        bundle.putString("name_category", nameCategory);
 
                         itemFragment.setArguments(bundle);
 
